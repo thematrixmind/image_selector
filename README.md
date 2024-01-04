@@ -1,39 +1,39 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Image Selector plugin for Flutter
+<?code-excerpt path-base="example/lib"?>
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+[![pub package](https://img.shields.io/badge/image_selector-plugin_dev)](https://pub.dev/packages/image_selector)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+A Flutter plugin for Android for picking images from the image library,
+and taking new pictures with the camera.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+|             | Android 
+|-------------|--------|
 
-## Features
+## Installation
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+First, add `image_selector` as a
+[dependency in your pubspec.yaml file](https://flutter.dev/docs/development/platform-integration/platform-channels).
 
-## Getting started
+### Android
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+No configuration required.
 
-## Usage
+### Example
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
+<?code-excerpt "readme_excerpts.dart (Pick)"?>
 ```dart
-const like = 'sample';
+File? file;
+final ImagePicker picker = ImagePicker();
+// Pick an image.
+  pickImage(ImageFrom source) async {
+    ImageSelector imageSelector = ImageSelector();
+    await imageSelector.pickImage(context: context, source: source).then((pickedFile) {
+      if (pickedFile != null) {
+        setState(() {
+          file = pickedFile;
+        });
+     
+      }
+    });
+  }
 ```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
