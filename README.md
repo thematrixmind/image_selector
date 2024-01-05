@@ -1,7 +1,7 @@
 # Image Selector plugin for Flutter
 <?code-excerpt path-base="example/lib"?>
 
-[![pub package](https://img.shields.io/badge/image_selector-plugin_dev)](https://pub.dev/packages/image_selector)
+[![pub package](https://img.shields.io/badge/image_select-plugin_dev)](https://pub.dev/packages/image_select)
 
 A Flutter plugin for Android for picking images from the image library,
 and taking new pictures with the camera.
