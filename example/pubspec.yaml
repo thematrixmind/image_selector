@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  image_selector: 
+  image_select: 
     path: ..
 
 

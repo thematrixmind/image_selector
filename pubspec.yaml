@@ -1,6 +1,6 @@
-name: image_selector
+name: image_select
 description: "Pick images from device gallery and camera. Alternate of image_picker"
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/thematrixmind/image_selector.git
 
 environment:

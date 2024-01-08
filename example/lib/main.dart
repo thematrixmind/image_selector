@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_selector/image_selector.dart';
+import 'package:image_select/image_selector.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Image Select App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -33,8 +33,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   File? file;
+
+  CameraUiSettings cameraUiSettings = CameraUiSettings(
+    appbarColor: Colors.teal,
+    iconTheme: const IconThemeData(color: Colors.white),
+    title: 'Shoot the Image',
+    textStyle: const TextStyle(
+      color: Colors.white,
+    ),
+  );
   pickImage(ImageFrom source) async {
-    ImageSelector imageSelector = ImageSelector();
+    ImageSelect imageSelector = ImageSelect(cameraUiSettings: cameraUiSettings);
     await imageSelector.pickImage(context: context, source: source).then((pickedFile) {
       if (pickedFile != null) {
         setState(() {

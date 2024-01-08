@@ -1,22 +1,54 @@
 library image_selector;
 
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_selector/camera_image_pick.dart';
+import 'package:image_select/camera_image_pick.dart';
 
 enum ImageFrom {
   camera,
   gallery
 }
 
-class ImageSelector {
+class CameraUiSettings {
+  CameraUiSettings({
+    this.appbarColor,
+    this.textStyle,
+    this.title,
+    this.iconTheme,
+  });
+  String? title;
+  Color? appbarColor;
+  TextStyle? textStyle;
+
+  IconThemeData? iconTheme;
+
+  toJson() {
+    return {
+      'title': title,
+      'appbar_color': appbarColor,
+      'text_style': textStyle,
+      'icon_theme': iconTheme,
+    };
+  }
+}
+
+class ImageSelect {
+  ImageSelect({this.cameraUiSettings});
+  CameraUiSettings? cameraUiSettings;
   Future<File?> pickImage({required BuildContext context, required ImageFrom source}) async {
     try {
       if (source == ImageFrom.camera) {
-        // Navigate to the custom camera plugin for capturing images
-        File file = await Navigator.push(context, CupertinoPageRoute(builder: (context) => const CameraPlugin()));
+        debugPrint("This is camera settings : ${cameraUiSettings?.toJson()}");
+
+        File file = await Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => CameraPlugin(
+              cameraUiSettings: cameraUiSettings,
+            ),
+          ),
+        );
         return file;
       } else {
         // Use the image_picker package to pick an image from the gallery
@@ -28,7 +60,7 @@ class ImageSelector {
           return File(pickedFile.path);
         } else {
           debugPrint('User canceled image picking');
-          return null; // User canceled image picking
+          return null;
         }
       }
     } catch (e) {

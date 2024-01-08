@@ -1,39 +1,44 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# The Image Picker Maestro 🌈✨
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+[![pub package](https://img.shields.io/pub/v/image_select?label=image_select&color=blue)](https://pub.dev/packages/image_select)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+Welcome to the magical realm of the Image Picker Maestro! 🎩✨ This Flutter wizardry is crafted with the combined enchantments of two spellbinding plugins: `image_picker` and `camera`.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Ditch the dull and crash-prone experiences, for our Image Selector plugin guarantees a smooth journey across all devices without a single hiccup!
 
-## Features
+## Installation Magic 🪄
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Simply sprinkle the magic potion into your `pubspec.yaml` file, and behold the wonders of `image_select`. [Tap here to cast the spell](https://flutter.dev/docs/development/platform-integration/platform-channels)!
 
-## Getting started
+### Android Incantation 🤖
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+No need for extra runes or secret scrolls. Android bows before the power of this enchantment with no extra configurations needed.
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## Example Spellcasting 🪄
 
 ```dart
-const like = 'sample';
-```
+import 'package:flutter/material.dart';
+import 'package:image_select/image_select.dart';
 
-## Additional information
+File? file;
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+CameraUiSettings cameraUiSettings = CameraUiSettings(
+  appbarColor: Colors.teal,
+  iconTheme: const IconThemeData(color: Colors.white),
+  title: 'Shoot the Image 📷',
+  textStyle: const TextStyle(
+    color: Colors.white,
+  ),
+);
+
+pickImage(ImageFrom source) async {
+  ImageSelect imageSelector = ImageSelect(cameraUiSettings: cameraUiSettings);
+  await imageSelector.pickImage(context: context, source: source).then((pickedFile) {
+    if (pickedFile != null) {
+      setState(() {
+        file = pickedFile;
+      });
+      Navigator.pop(context);
+    }
+  });
+}

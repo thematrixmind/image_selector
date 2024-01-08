@@ -3,14 +3,12 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image_selector/custom_loder.dart';
-import 'package:image_selector/progress_bar.dart';
+import 'package:image_select/image_selector.dart';
 
 class CameraPlugin extends StatefulWidget {
-  const CameraPlugin({
-    Key? key,
-  }) : super(key: key);
+  const CameraPlugin({Key? key, this.cameraUiSettings}) : super(key: key);
 
+  final CameraUiSettings? cameraUiSettings;
   @override
   _CameraPluginState createState() => _CameraPluginState();
 }
@@ -97,8 +95,10 @@ class _CameraPluginState extends State<CameraPlugin> with WidgetsBindingObserver
       backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: const Text('Capture Image'),
+        iconTheme: widget.cameraUiSettings?.iconTheme,
+        backgroundColor: widget.cameraUiSettings?.appbarColor ?? Theme.of(context).appBarTheme.backgroundColor,
+        title: Text(widget.cameraUiSettings?.title ?? 'Capture Image'),
+        titleTextStyle: widget.cameraUiSettings?.textStyle ?? Theme.of(context).appBarTheme.titleTextStyle,
       ),
       body: FutureBuilder(
         future: _initializeControllerFuture,
@@ -170,5 +170,72 @@ class _CameraPluginState extends State<CameraPlugin> with WidgetsBindingObserver
         },
       ),
     );
+  }
+}
+
+class ProgressBar extends StatelessWidget {
+  const ProgressBar({super.key, this.color});
+  final Color? color;
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: 100.0,
+        height: 100.0,
+        child: Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(color ?? Theme.of(context).primaryColor),
+              strokeWidth: 3.0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoadingDialog extends StatelessWidget {
+  final String? text;
+
+  const LoadingDialog({super.key, this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 20),
+            if (text != null) Text(text!),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomLoader {
+  static void show(BuildContext context, {String? text}) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => LoadingDialog(text: text),
+    );
+  }
+
+  static void hide(BuildContext context) {
+    Navigator.of(context).pop();
   }
 }
