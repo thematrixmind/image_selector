@@ -1,4 +1,4 @@
-# The Image Picker Maestro 🌈✨
+# The Image Select Maestro 🌈✨
 
 [![pub package](https://img.shields.io/pub/v/image_select?label=image_select&color=blue)](https://pub.dev/packages/image_select)
 
@@ -32,8 +32,8 @@ CameraUiSettings cameraUiSettings = CameraUiSettings(
 );
 
 pickImage(ImageFrom source) async {
-  ImageSelect imageSelector = ImageSelect(cameraUiSettings: cameraUiSettings);
-  await imageSelector.pickImage(context: context, source: source).then((pickedFile) {
+  ImageSelect imageSelect = ImageSelect(cameraUiSettings: cameraUiSettings);
+  await imageSelect.pickImage(context: context, source: source).then((pickedFile) {
     if (pickedFile != null) {
       setState(() {
         file = pickedFile;
