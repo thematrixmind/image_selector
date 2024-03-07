@@ -6,6 +6,7 @@ Welcome to the enchanting realm of the Image Picker Maestro! 🎩✨ This Flutte
 
 Bid farewell to mundane and crash-prone experiences, as our Image Selector plugin ensures a seamless journey across all devices, leaving you spellbound with its flawless performance!
 
+
 ## Installation Magic 🪄
 
 Sprinkle the magic potion into your `pubspec.yaml` file, and witness the wonders of `image_select`. [Tap here to cast the spell](https://flutter.dev/docs/development/platform-integration/platform-channels)!
