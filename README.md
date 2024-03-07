@@ -2,17 +2,21 @@
 
 [![pub package](https://img.shields.io/pub/v/image_select?label=image_select&color=blue)](https://pub.dev/packages/image_select)
 
-Welcome to the magical realm of the Image Picker Maestro! 🎩✨ This Flutter wizardry is crafted with the combined enchantments of two spellbinding plugins: `image_picker` and `camera`.
+Welcome to the enchanting realm of the Image Picker Maestro! 🎩✨ This Flutter wizardry has been meticulously crafted by weaving together the enchantments of three magical plugins: `image_picker`, `camera`, and `flutter_native_image`.
 
-Ditch the dull and crash-prone experiences, for our Image Selector plugin guarantees a smooth journey across all devices without a single hiccup!
+Bid farewell to mundane and crash-prone experiences, as our Image Selector plugin ensures a seamless journey across all devices, leaving you spellbound with its flawless performance!
 
 ## Installation Magic 🪄
 
-Simply sprinkle the magic potion into your `pubspec.yaml` file, and behold the wonders of `image_select`. [Tap here to cast the spell](https://flutter.dev/docs/development/platform-integration/platform-channels)!
+Sprinkle the magic potion into your `pubspec.yaml` file, and witness the wonders of `image_select`. [Tap here to cast the spell](https://flutter.dev/docs/development/platform-integration/platform-channels)!
+
+## Compress Images 🌄
+
+Behold the power of image compression! Now, you can select and compress images effortlessly using this single magical package. How enchanting!
 
 ### Android Incantation 🤖
 
-No need for extra runes or secret scrolls. Android bows before the power of this enchantment with no extra configurations needed.
+No need for extra runes or secret scrolls. Android bows before the might of this enchantment with no additional configurations needed.
 
 ## Example Spellcasting 🪄
 
@@ -25,15 +29,17 @@ File? file;
 CameraUiSettings cameraUiSettings = CameraUiSettings(
   appbarColor: Colors.teal,
   iconTheme: const IconThemeData(color: Colors.white),
-  title: 'Shoot the Image 📷',
+  title: 'Shoot the Image',
   textStyle: const TextStyle(
     color: Colors.white,
   ),
+  initialCameraSide: CameraSide.back,
 );
 
 pickImage(ImageFrom source) async {
-  ImageSelect imageSelect = ImageSelect(cameraUiSettings: cameraUiSettings);
-  await imageSelect.pickImage(context: context, source: source).then((pickedFile) {
+  debugPrint(cameraUiSettings.toJson().toString());
+  ImageSelect imageSelector = ImageSelect(cameraUiSettings: cameraUiSettings, compressImage: true);
+  await imageSelector.pickImage(context: context, source: source).then((pickedFile) {
     if (pickedFile != null) {
       setState(() {
         file = pickedFile;

@@ -1,6 +1,6 @@
 name: image_select
 description: "Pick images from device gallery and camera. Alternate of image_picker"
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/thematrixmind/image_selector.git
 
 environment:
@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   image_picker: ^1.0.6
   camera: ^0.10.5+8
+  flutter_native_image: ^0.0.6+1
 
 dev_dependencies:
   flutter_test:

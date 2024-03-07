@@ -1,9 +1,17 @@
-<!-- ## 0.0.2
+## 0.0.3
+
+* Improved image selection from camera.
+* Add compress image functionality
+* Bug fixes and performance optimizations.
+* Updated documentation.
+
+
+## 0.0.2
 
 * Improved image selection functionality.
 * Enhanced user experience for selecting images from both camera and gallery.
 * Bug fixes and performance optimizations.
-* Updated documentation. -->
+* Updated documentation.
 
 ## 0.0.1
 

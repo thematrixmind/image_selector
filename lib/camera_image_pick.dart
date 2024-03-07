@@ -27,11 +27,31 @@ class _CameraPluginState extends State<CameraPlugin> with WidgetsBindingObserver
     initializeCamera();
   }
 
+  bool initializingFirstTime = true;
+
   void initializeCamera() async {
     cameras = await availableCameras();
     log(cameras.toString());
 
-    CameraDescription frontCamera = cameras.firstWhere(
+    CameraDescription frontCamera;
+
+    if (initializingFirstTime) {
+      print('Initializing first time : $initializingFirstTime');
+      initializingFirstTime = false;
+      if (widget.cameraUiSettings?.initialCameraSide == CameraSide.front) {
+        frontCamera = cameras.firstWhere(
+          (camera) => camera.lensDirection == CameraLensDirection.front,
+          orElse: () => cameras[0],
+        );
+      } else {
+        frontCamera = cameras.firstWhere(
+          (camera) => camera.lensDirection == CameraLensDirection.back,
+          orElse: () => cameras[0],
+        );
+      }
+    }
+
+    frontCamera = cameras.firstWhere(
       (camera) => camera.lensDirection == CameraLensDirection.front,
       orElse: () => cameras[0],
     );

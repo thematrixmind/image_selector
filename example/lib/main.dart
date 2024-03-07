@@ -41,9 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
     textStyle: const TextStyle(
       color: Colors.white,
     ),
+    initialCameraSide: CameraSide.back,
   );
+
   pickImage(ImageFrom source) async {
-    ImageSelect imageSelector = ImageSelect(cameraUiSettings: cameraUiSettings);
+    debugPrint(cameraUiSettings.toJson().toString());
+    ImageSelect imageSelector = ImageSelect(cameraUiSettings: cameraUiSettings, compressImage: true);
     await imageSelector.pickImage(context: context, source: source).then((pickedFile) {
       if (pickedFile != null) {
         setState(() {
