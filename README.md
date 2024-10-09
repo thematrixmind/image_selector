@@ -6,10 +6,14 @@ Welcome to the enchanting realm of the Image Picker Maestro! 🎩✨ This Flutte
 
 Bid farewell to mundane and crash-prone experiences, as our Image Selector plugin ensures a seamless journey across all devices, leaving you spellbound with its flawless performance!
 
-
 ## Installation Magic 🪄
 
 Sprinkle the magic potion into your `pubspec.yaml` file, and witness the wonders of `image_select`. [Tap here to cast the spell](https://flutter.dev/docs/development/platform-integration/platform-channels)!
+
+```yaml
+dependencies:
+  image_select: ^0.0.3 
+```
 
 ## Compress Images 🌄
 
@@ -18,6 +22,12 @@ Behold the power of image compression! Now, you can select and compress images e
 ### Android Incantation 🤖
 
 No need for extra runes or secret scrolls. Android bows before the might of this enchantment with no additional configurations needed.
+
+## Camera Features 📸
+
+### Mirrored Front Camera
+
+Experience a captivating camera interface! The front camera now features a mirrored effect for a more natural self-portrait experience.
 
 ## Example Spellcasting 🪄
 
@@ -49,3 +59,12 @@ pickImage(ImageFrom source) async {
     }
   });
 }
+```
+
+## Contribution 👐
+
+We welcome contributions from fellow wizards! Feel free to submit issues and pull requests to enhance the enchantment of this package.
+
+## License 📜
+
+This package is licensed under the [MIT License](LICENSE).

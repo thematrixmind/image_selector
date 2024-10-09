@@ -130,7 +130,13 @@ class _CameraPluginState extends State<CameraPlugin> with WidgetsBindingObserver
                 SizedBox(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.6,
-                  child: CameraPreview(controller!),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: controller!.description.lensDirection == CameraLensDirection.front
+                        ? Matrix4.rotationY(3.14159) // Mirror the front camera
+                        : Matrix4.identity(),
+                    child: CameraPreview(controller!),
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

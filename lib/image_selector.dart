@@ -1,10 +1,9 @@
-library image_selector;
-
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_select/camera_image_pick.dart';
+import 'package:path_provider/path_provider.dart';
 
 enum ImageFrom {
   camera,
@@ -19,19 +18,32 @@ class CameraUiSettings {
     this.iconTheme,
     this.initialCameraSide,
   });
+
   String? title;
   Color? appbarColor;
   TextStyle? textStyle;
   CameraSide? initialCameraSide;
   IconThemeData? iconTheme;
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'title': title,
-      'appbar_color': appbarColor,
-      'text_style': textStyle,
-      'icon_theme': iconTheme,
-      'initial_camera_side': initialCameraSide!.name
+      'appbar_color': appbarColor?.value,
+      'text_style': textStyle != null
+          ? {
+              'font_size': textStyle?.fontSize,
+              'color': textStyle?.color?.value,
+              // Add more TextStyle properties here if necessary
+            }
+          : null,
+      'icon_theme': iconTheme != null
+          ? {
+              'color': iconTheme?.color?.value,
+              'size': iconTheme?.size,
+              // Add more IconThemeData properties here if necessary
+            }
+          : null,
+      'initial_camera_side': initialCameraSide?.name,
     };
   }
 }
@@ -43,29 +55,28 @@ class ImageSelect {
     this.compressParams,
     this.compressOnlyForCamera = false,
   });
-  CameraUiSettings? cameraUiSettings;
 
+  CameraUiSettings? cameraUiSettings;
   final bool compressImage;
   final bool compressOnlyForCamera;
   final CompressParams? compressParams;
 
   File? file;
+
   Future<File?> pickImage({required BuildContext context, required ImageFrom source}) async {
-    cameraUiSettings?.initialCameraSide = CameraSide.back;
+    cameraUiSettings?.initialCameraSide ??= CameraSide.back;
+
     try {
       if (source == ImageFrom.camera) {
-        debugPrint("This is camera settings : ${cameraUiSettings?.toJson()}");
+        debugPrint("This is camera settings: ${cameraUiSettings?.toJson()}");
 
         file = await Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => CameraPlugin(
-              cameraUiSettings: cameraUiSettings,
-            ),
+            builder: (context) => CameraPlugin(cameraUiSettings: cameraUiSettings),
           ),
         );
       } else {
-        // Use the image_picker package to pick an image from the gallery
         final imagePicker = ImagePicker();
         final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
@@ -80,43 +91,51 @@ class ImageSelect {
       if (compressImage && file != null) {
         if (!compressOnlyForCamera || (compressOnlyForCamera && source == ImageFrom.camera)) {
           final sizeInKbBeforeCompression = file!.lengthSync() / 1024;
-          debugPrint('Before Compress $sizeInKbBeforeCompression kb');
-          file = await compress(image: file!);
+          debugPrint('Before Compress: $sizeInKbBeforeCompression KB');
+
+          file = await compress(image: file!, compressParams: compressParams ?? defaultCompress);
+
           final sizeInKbAfterCompression = file!.lengthSync() / 1024;
-          debugPrint('After Compress $sizeInKbAfterCompression kb');
+          debugPrint('After Compress: $sizeInKbAfterCompression KB');
         }
       }
 
       return file;
     } catch (e) {
-      debugPrint('Error picking image: $e');
-      return file;
+      debugPrint('Error picking image: ${e.toString()}');
+      return null;
     }
   }
 
-  static Future<File> compress({required File image, CompressParams compressParams = defaultCompress}) async {
-    var file = await FlutterNativeImage.compressImage(
+  static Future<File?> compress({
+    required File image,
+    CompressParams compressParams = defaultCompress,
+  }) async {
+    var dir = await getTemporaryDirectory();
+    var targetPath = '${dir.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+    var compressedFile = await FlutterImageCompress.compressAndGetFile(
       image.absolute.path,
+      targetPath,
       quality: compressParams.quality,
-      percentage: compressParams.percentage,
-      targetHeight: compressParams.targetHeight,
-      targetWidth: compressParams.targetWidth,
+      minHeight: compressParams.targetHeight,
+      minWidth: compressParams.targetWidth,
     );
-    return file;
+
+    if (compressedFile == null) {
+      debugPrint('Compression failed');
+      return null;
+    }
+
+    return File(compressedFile.path);
   }
 
-  // default configuration for compressing images
-  static const CompressParams defaultCompress = CompressParams(70, 70, 0, 0);
+  static const CompressParams defaultCompress = CompressParams(70, 1080, 1920); // Defaults for HD
 }
 
 class CompressParams {
-  const CompressParams(
-    this.percentage,
-    this.quality,
-    this.targetHeight,
-    this.targetWidth,
-  );
-  final int percentage;
+  const CompressParams(this.quality, this.targetWidth, this.targetHeight);
+
   final int quality;
   final int targetWidth;
   final int targetHeight;
