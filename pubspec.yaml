@@ -1,23 +1,28 @@
 name: image_select
 description: "Pick images from device gallery and camera. Alternate of image_picker"
-version: 0.0.4
-homepage: https://github.com/thematrixmind/image_selector.git
+version: 0.0.6
+homepage: https://github.com/thematrixmind/image_selector
+repository: https://github.com/thematrixmind/image_selector.git
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: ">=3.29.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  image_picker: ^1.1.2
-  camera: ^0.11.0+2
-  flutter_image_compress: ^2.3.0
-  path_provider: ^2.1.4
+  image_picker: ^1.2.1
+  camera: ^0.12.0+1
+  flutter_image_compress: ^2.4.0
+  path_provider: ^2.1.5
+  image_cropper: ^11.0.0
+  video_compress: ^3.1.4
+  file_picker: ^10.3.10
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
